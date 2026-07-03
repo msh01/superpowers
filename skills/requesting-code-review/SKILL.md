@@ -12,8 +12,8 @@ Dispatch a code reviewer subagent to catch issues before they cascade. The revie
 ## When to Request Review
 
 **Mandatory:**
-- After each task in subagent-driven development
-- After completing major feature
+- After each task in subagent-driven development, via SDD's built-in task reviewer
+- After completing major feature outside SDD
 - Before merge to main
 
 **Optional but valuable:**
@@ -75,7 +75,9 @@ You: [Fix progress indicators]
 ## Integration with Workflows
 
 **Subagent-Driven Development:**
-- Review after EACH task
+- SDD's built-in task reviewer uses this review mechanism after each task
+- That SDD review satisfies this skill for the reviewed diff
+- Do not request a second duplicate review unless new changes were made after review
 - Catch issues before they compound
 - Fix before moving to next task
 
