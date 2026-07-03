@@ -1,6 +1,6 @@
 ---
 name: writing-skills
-description: Use when creating new skills, editing existing skills, or verifying skills work before deployment
+description: "Use when creating new skills, editing existing skills, or verifying skills work before deployment"
 ---
 
 # Writing Skills
@@ -97,6 +97,9 @@ skills/
 - Max 1024 characters total
 - `name`: Use letters, numbers, and hyphens only (no parentheses, special chars)
 - `description`: Third-person, describes ONLY when to use (NOT what it does)
+  - Quote description strings with double quotes. YAML plain scalars containing
+    `: ` are parsed as mappings by standard parsers, so an unquoted description
+    like `description: Use when configuring apps: sizing` is invalid.
   - Start with "Use when..." to focus on triggering conditions
   - Include specific symptoms, situations, and contexts
   - **NEVER summarize the skill's process or workflow** (see SDO section for why)
@@ -105,7 +108,7 @@ skills/
 ```markdown
 ---
 name: Skill-Name-With-Hyphens
-description: Use when [specific triggering conditions and symptoms]
+description: "Use when [specific triggering conditions and symptoms]"
 ---
 
 # Skill Name
@@ -136,6 +139,14 @@ What goes wrong + fixes
 Concrete results
 ```
 
+```yaml
+# BAD: unquoted ": " breaks YAML parsing
+description: Use when configuring apps: sizing and tuning
+
+# GOOD
+description: "Use when configuring apps: sizing and tuning"
+```
+
 
 ## Skill Discovery Optimization (SDO)
 
@@ -159,16 +170,16 @@ When the description was changed to just "Use when executing implementation plan
 
 ```yaml
 # ❌ BAD: Summarizes workflow - agents may follow this instead of reading skill
-description: Use when executing plans - dispatches subagent per task with code review between tasks
+description: "Use when executing plans - dispatches subagent per task with code review between tasks"
 
 # ❌ BAD: Too much process detail
-description: Use for TDD - write test first, watch it fail, write minimal code, refactor
+description: "Use for TDD - write test first, watch it fail, write minimal code, refactor"
 
 # ✅ GOOD: Just triggering conditions, no workflow summary
-description: Use when executing implementation plans with independent tasks in the current session
+description: "Use when executing implementation plans with independent tasks in the current session"
 
 # ✅ GOOD: Triggering conditions only
-description: Use when implementing any feature or bugfix, before writing implementation code
+description: "Use when implementing any feature or bugfix, before writing implementation code"
 ```
 
 **Content:**
@@ -181,19 +192,19 @@ description: Use when implementing any feature or bugfix, before writing impleme
 
 ```yaml
 # ❌ BAD: Too abstract, vague, doesn't include when to use
-description: For async testing
+description: "For async testing"
 
 # ❌ BAD: First person
-description: I can help you with async tests when they're flaky
+description: "I can help you with async tests when they're flaky"
 
 # ❌ BAD: Mentions technology but skill isn't specific to it
-description: Use when tests use setTimeout/sleep and are flaky
+description: "Use when tests use setTimeout/sleep and are flaky"
 
 # ✅ GOOD: Starts with "Use when", describes problem, no workflow
-description: Use when tests have race conditions, timing dependencies, or pass/fail inconsistently
+description: "Use when tests have race conditions, timing dependencies, or pass/fail inconsistently"
 
 # ✅ GOOD: Technology-specific skill with explicit trigger
-description: Use when using React Router and handling authentication redirects
+description: "Use when using React Router and handling authentication redirects"
 ```
 
 ### 2. Keyword Coverage
@@ -546,7 +557,7 @@ Make it easy for agents to self-check when rationalizing:
 Add to description: symptoms of when you're ABOUT to violate the rule:
 
 ```yaml
-description: use when implementing any feature or bugfix, before writing implementation code
+description: "use when implementing any feature or bugfix, before writing implementation code"
 ```
 
 ## RED-GREEN-REFACTOR for Skills
