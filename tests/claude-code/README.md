@@ -92,6 +92,19 @@ Tests skill content and requirements (~2 minutes):
 - Review loops documented
 - Task context provision documented
 
+#### test-worktree-path-policy.sh
+Static policy regression test for worktree guidance:
+- Manual worktrees default to project-local `.worktrees/`
+- Legacy global worktree paths are not advertised
+- Cleanup ownership stays limited to project-local worktrees
+
+#### test-sdd-workspace.sh
+Shell regression test for SDD scratch artifact paths:
+- `sdd-workspace` resolves `.superpowers/sdd`
+- The workspace self-ignores with `.gitignore`
+- `task-brief` and `review-package` write under the workspace
+- Linked worktrees get distinct workspaces
+
 ### Integration Tests (use --integration flag)
 
 #### test-subagent-driven-development-integration.sh
@@ -132,7 +145,7 @@ RED-GREEN-REFACTOR validation for the using-git-worktrees skill (~5 minutes):
 
 ## Timeout Considerations
 
-- Default timeout: 5 minutes per test
+- Default timeout: 10 minutes per test
 - Claude Code may take time to respond
 - Adjust with `--timeout` if needed
 - Tests should be focused to avoid long runs
