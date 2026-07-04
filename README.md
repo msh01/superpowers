@@ -63,14 +63,17 @@ The Superpowers marketplace provides Superpowers and some other related plugins 
 
 ### Antigravity
 
-Install Superpowers as a plugin from this repository:
+Install Superpowers with the Antigravity CLI (`agy`):
 
 ```bash
 agy plugin install https://github.com/obra/superpowers
 ```
 
-Antigravity runs the plugin's session-start hook, so Superpowers is active from
-the first message. Reinstall with the same command to update.
+Open a new `agy` session after installing. Antigravity runs the plugin's
+session-start hook, so Superpowers is active from the first message. It does not
+add slash commands; skills trigger from conversation context.
+
+Reinstall with the same command to update.
 
 ### Codex App
 
