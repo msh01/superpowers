@@ -321,10 +321,10 @@ ones in spirit:
   metadata is the **repo-root `package.json`**: `main` points at the OpenCode
   plugin, the `pi` field (`pi.extensions`, `pi.skills`) plus the `pi-package`
   keyword declare the pi extension. Per-harness local manifests and lockfiles are
-  kept out of git — `.opencode/.gitignore` excludes `node_modules`,
-  `package.json`, and lockfiles. Do the same for your harness's *local* install
-  artifacts so they don't pollute the repo — but never gitignore the repo-root
-  `package.json`, which is the tracked source of truth.
+  not committed; the repo-root `.gitignore` excludes generated dependency
+  directories such as `node_modules/`. Do the same for your harness's *local*
+  install artifacts so they don't pollute the repo — but never gitignore the
+  repo-root `package.json`, which is the tracked source of truth.
   - **Build/dependency check.** Decide how the harness loads your module:
     does it run the source directly (pi's `.ts` is referenced as-is from
     `package.json`; OpenCode ships plain `.js`), or does it need a transpile/build
