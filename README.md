@@ -11,7 +11,7 @@ If this sounds like someone you know, definitely send them our way.
 
 ## Quickstart
 
-Give your agent Superpowers: [Claude Code](#claude-code), [Antigravity](#antigravity), [Codex App](#codex-app), [Codex CLI](#codex-cli), [Cursor](#cursor), [Factory Droid](#factory-droid), [GitHub Copilot CLI](#github-copilot-cli), [Kimi Code](#kimi-code), [OpenCode](#opencode), [Pi](#pi).
+Give your agent Superpowers: [Claude Code](#claude-code), [Antigravity](#antigravity), [Codex App](#codex-app), [Codex CLI](#codex-cli), [Cursor](#cursor), [Factory Droid](#factory-droid), [GitHub Copilot in VS Code](#github-copilot-in-vs-code), [GitHub Copilot CLI](#github-copilot-cli), [Kimi Code](#kimi-code), [OpenCode](#opencode), [Pi](#pi).
 
 ## How it works
 
@@ -121,6 +121,22 @@ Superpowers is available via the [official Codex plugin marketplace](https://git
   ```bash
   droid plugin install superpowers@superpowers
   ```
+
+### GitHub Copilot in VS Code
+
+VS Code's Agent Plugins support is currently in preview.
+
+- Open VS Code Settings and add the Superpowers marketplace:
+
+  ```json
+  "chat.plugins.marketplaces": [
+    "obra/superpowers-marketplace"
+  ]
+  ```
+
+- Open the Extensions view and search for `@agentPlugins`, or run
+  `Chat: Manage Plugin Marketplaces` from the Command Palette.
+- Browse the Superpowers marketplace and install `superpowers`.
 
 ### GitHub Copilot CLI
 
