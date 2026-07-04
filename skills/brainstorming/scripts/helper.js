@@ -74,6 +74,22 @@
     if (document.body) document.body.appendChild(el);
   }
 
+  function showChoiceRecordedNotice() {
+    let el = document.getElementById('bs-choice-recorded');
+    if (!el) {
+      el = document.createElement('div');
+      el.id = 'bs-choice-recorded';
+      el.style.cssText = 'position:fixed;right:1rem;bottom:1rem;z-index:99998;' +
+        'max-width:24rem;padding:.75rem 1rem;border-radius:.5rem;' +
+        'background:rgba(20,20,22,0.92);color:#f5f5f7;' +
+        'box-shadow:0 8px 24px rgba(0,0,0,.24);font-family:system-ui,sans-serif;' +
+        'font-size:.875rem;line-height:1.35';
+      if (document.body) document.body.appendChild(el);
+    }
+    el.textContent = 'Selection recorded. Return to your coding agent and send "continue" if it does not resume automatically.';
+    el.style.opacity = '1';
+  }
+
   function connect() {
     if (reconnectTimer) { clearTimeout(reconnectTimer); reconnectTimer = null; }
     setStatus(everConnected ? 'reconnecting' : 'connecting');
@@ -137,6 +153,7 @@
       choice: target.dataset.choice,
       id: target.id || null
     });
+    showChoiceRecordedNotice();
 
   });
 

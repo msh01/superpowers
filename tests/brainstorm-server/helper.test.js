@@ -80,12 +80,18 @@ test('reloads on recovery and on reload messages', () => {
   assert(/location\.reload\(\)/.test(src), 'reloads to pick up restarted/updated content');
 });
 
+test('choice clicks explain that the selection was recorded', () => {
+  assert(src.includes('bs-choice-recorded'), 'creates the recorded-selection notice');
+  assert(src.includes('Selection recorded'), 'notice confirms the browser click was recorded');
+  assert(src.includes('send "continue"'), 'notice tells users how to wake the next agent turn');
+});
+
 console.log('\n--- Reconnect state machine (mocked browser) ---');
 
 // Drive helper.js's browser code against mocked DOM/WebSocket/timers/clock so we
 // can exercise the actual reconnect/status/tombstone behaviour, not just grep it.
 function makeEnv() {
-  const state = { now: 1000, timers: [], reloads: 0, replacements: [], appended: [], sessionKey: 'stored-key-abc' };
+  const state = { now: 1000, timers: [], reloads: 0, replacements: [], appended: [], listeners: {}, sessionKey: 'stored-key-abc' };
   const sockets = [];
   const statusEl = { textContent: '', style: { setProperty() {} } };
   class FakeWS {
@@ -107,9 +113,9 @@ function makeEnv() {
     },
     document: {
       querySelector: (s) => s === '.status' ? statusEl : null,
-      getElementById: () => null,
-      createElement: () => ({ style: {}, id: '' }),
-      addEventListener() {},
+      getElementById: (id) => state.appended.find(el => el.id === id) || null,
+      createElement: () => ({ style: {}, id: '', textContent: '' }),
+      addEventListener(name, fn) { state.listeners[name] = fn; },
       body: { appendChild: (el) => state.appended.push(el) }
     },
     WebSocket: FakeWS,
@@ -127,6 +133,15 @@ function makeEnv() {
       const t = [...state.timers].reverse().find(x => !x.fired && !x.cleared);
       if (!t) throw new Error('no reconnect scheduled');
       t.fired = true; t.fn();
+    },
+    clickChoice(choice = 'a') {
+      const target = {
+        id: 'choice-a',
+        textContent: 'Choice A',
+        dataset: { choice },
+        closest: (selector) => selector === '[data-choice]' ? target : null
+      };
+      state.listeners.click({ target });
     }
   };
 }
@@ -191,6 +206,16 @@ test('reloads to recover when tombstoned and no sessionStorage key is present', 
   e.fireReconnect(); e.last().open();                    // server back (e.g. cookie-only page)
   assert.strictEqual(e.state.reloads, 1, 'reloads once on recovery');
   assert.deepStrictEqual(e.state.replacements, []);
+});
+
+test('shows recorded-selection notice after a choice click', () => {
+  const e = makeEnv(); e.boot();
+  e.last().open();
+  e.clickChoice('a');
+  const notice = e.state.appended.find(el => el.id === 'bs-choice-recorded');
+  assert(notice, 'notice appended');
+  assert.match(notice.textContent, /Selection recorded/);
+  assert.match(notice.textContent, /continue/);
 });
 
 console.log(`\n--- Results: ${passed} passed, ${failed} failed ---`);
